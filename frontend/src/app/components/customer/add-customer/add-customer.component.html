@@ -1,0 +1,232 @@
+<div class="alert alert-success text-center" *ngIf="submitted">
+  Дані додано успішно
+</div>
+
+<div class="alert alert-danger text-center" *ngIf="submitted === false">
+  {{ errorMessage.error }}
+</div>
+
+<div class="container">
+  <form [formGroup]="addCustomerForm">
+    <div class="row">
+      <div class="form-group col">
+
+        <input
+          type="text"
+          class="form-control"
+          placeholder="псевдонім"
+          formControlName="username"
+          [class.is-invalid]="
+            addCustomerForm.get('username').invalid &&
+            addCustomerForm.get('username').touched
+          "
+        />
+        <div
+          *ngIf="
+            addCustomerForm.get('username').invalid &&
+            addCustomerForm.get('username').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('username').errors.required"
+          >
+            псевдонім обов'язковий
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('username').errors.minlength"
+          >
+            псевдонім повинен містити мінімум 3 символи
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="ім'я"
+          formControlName="firstname"
+          [class.is-invalid]="
+            addCustomerForm.get('firstname').invalid &&
+            addCustomerForm.get('firstname').touched
+          "
+        />
+        <div
+          *ngIf="
+            addCustomerForm.get('firstname').invalid &&
+            addCustomerForm.get('firstname').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('firstname').errors.required"
+          >
+            ім'я обов'язкове
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('firstname').errors.pattern"
+          >
+            ім'я повинне містити тільки букви
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="прізвище"
+          formControlName="lastname"
+          [class.is-invalid]="
+            addCustomerForm.get('lastname').invalid &&
+            addCustomerForm.get('lastname').touched
+          "
+        />
+        <div
+          *ngIf="
+            addCustomerForm.get('lastname').invalid &&
+            addCustomerForm.get('lastname').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('lastname').errors.required"
+          >
+            прізвище обов'язкове
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('lastname').errors.pattern"
+          >
+            прізвище повинне містити тільки букви
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="адреса"
+          formControlName="address"
+          [class.is-invalid]="
+            addCustomerForm.get('address').invalid &&
+            addCustomerForm.get('address').touched
+          "
+        />
+        <div
+          *ngIf="
+            addCustomerForm.get('address').invalid &&
+            addCustomerForm.get('address').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('address').errors.required"
+          >
+            адреса обов'язкова
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="tel"
+          class="form-control"
+          placeholder="телефон"
+          formControlName="phone"
+          maxlength="14"
+          [class.is-invalid]="
+            addCustomerForm.get('phone').invalid &&
+            addCustomerForm.get('phone').touched
+          "
+        />
+        <div
+          *ngIf="
+            addCustomerForm.get('phone').invalid &&
+            addCustomerForm.get('phone').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('phone').errors.required"
+          >
+            телефон обов'язковий
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="
+              addCustomerForm.get('phone').errors.minlength ||
+              addCustomerForm.get('phone').errors.pattern
+            "
+          >
+            телефон повинен містити мінімум 10 символів
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="email"
+          class="form-control"
+          placeholder="емейл"
+          formControlName="email"
+          [class.is-invalid]="
+            addCustomerForm.get('email').invalid &&
+            addCustomerForm.get('email').touched
+          "
+        />
+        <div
+          *ngIf="
+            addCustomerForm.get('email').invalid &&
+            addCustomerForm.get('email').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('email').errors.required"
+          >
+            емейл обов'язковий
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="addCustomerForm.get('email').errors.pattern"
+          >
+            введіть валідний емейл
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="btn-toolbar col-auto ml-auto">
+        <div class="btn-group mr-3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onSubmit()"
+            [disabled]="!addCustomerForm.valid"
+          >
+            Підтвердити
+          </button>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">
+            Відмінити
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,153 @@
+<div class="alert alert-success text-center" *ngIf="submitted">
+  Дані додано успішно
+</div>
+
+<div class="alert alert-danger text-center" *ngIf="submitted === false">
+  {{ errorMessage.error }}
+</div>
+
+<div class="container">
+  <form [formGroup]="addProductForm">
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Назва"
+          formControlName="itemname"
+          [class.is-invalid]="
+            addProductForm.get('itemname').invalid &&
+            addProductForm.get('itemname').touched
+          "
+        />
+        <div
+          *ngIf="
+            addProductForm.get('itemname').invalid &&
+            addProductForm.get('itemname').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addProductForm.get('itemname').errors.required"
+          >
+            назва обов'язкова
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="бренд"
+          formControlName="brand"
+          [class.is-invalid]="
+            addProductForm.get('brand').invalid &&
+            addProductForm.get('brand').touched
+          "
+        />
+        <div
+          *ngIf="
+            addProductForm.get('brand').invalid &&
+            addProductForm.get('brand').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addProductForm.get('brand').errors.required"
+          >
+            бренд обов'язковий
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <textarea
+          type="text"
+          class="form-control"
+          placeholder="опис"
+          formControlName="description"
+          [class.is-invalid]="
+            addProductForm.get('description').invalid &&
+            addProductForm.get('description').touched
+          "
+          rows="5"
+        >
+        </textarea>
+        <div
+          *ngIf="
+            addProductForm.get('description').invalid &&
+            addProductForm.get('description').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addProductForm.get('description').errors.required"
+          >
+            опис обов'язковий
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="ціна"
+          formControlName="unitprice"
+          maxlength="10"
+          [class.is-invalid]="
+            addProductForm.get('unitprice').invalid &&
+            addProductForm.get('unitprice').touched
+          "
+        />
+        <div
+          *ngIf="
+            addProductForm.get('unitprice').invalid &&
+            addProductForm.get('unitprice').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addProductForm.get('unitprice').errors.required"
+          >
+            ціна обов'язкова
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="
+              addProductForm.get('unitprice').errors.minlength ||
+              addProductForm.get('unitprice').errors.pattern
+            "
+          >
+            ціна повинна бути числом
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="btn-toolbar col-auto ml-auto">
+        <div class="btn-group mr-3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onSubmit()"
+            [disabled]="!addProductForm.valid"
+          >
+            Підтвердити
+          </button>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">
+            Відмінити
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

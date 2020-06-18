@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="heading">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h1>Список продуктів</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto ml-auto">
+        <button
+          type="button"
+          class="btn btn-sm btn-danger"
+          routerLink="/add"
+          (click)="onCreate()"
+        >
+          Добавити
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="product">
+    <div class="row">
+      <div class="col-3"><h5>ID</h5></div>
+      <div class="col"><h5>Назва</h5></div>
+      <div class="col"><h5>Бренд</h5></div>
+      <div class="col"><h5>Опис</h5></div>
+      <div class="col"><h5>Ціна</h5></div>
+      <div class="col"></div>
+    </div>
+    <div class="row" *ngFor="let product of products">
+      <div class="col-3">{{ product._id }}</div>
+      <div class="col">{{ product.itemname }}</div>
+      <div class="col">{{ product.brand }}</div>
+      <div class="col">{{ product.description }}</div>
+      <div class="col">{{ product.unitprice }} грн.</div>
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-warning mr-2"
+          title="Змінити"
+          [routerLink]="['/edit', product._id]"
+          (click)="onEdit(product._id)"
+        >
+          <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-dark mr-2"
+          title="Видалити"
+          (click)="onDelete(product._id)"
+        >
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-info"
+          title="Деталі"
+          [routerLink]="['/lookup', product._id]"
+          (click)="onLookup(product._id)"
+        >
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

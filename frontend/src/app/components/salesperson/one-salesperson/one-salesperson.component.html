@@ -1,0 +1,227 @@
+<div class="container">
+  <div class="heading">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h1>
+          Продавець
+          <span class="display-4">
+            <em>{{ saleUsername }}</em>
+          </span>
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="info">
+    <div class="row">
+      <div class="col-auto">
+        <img
+          src="https://img.icons8.com/doodle/96/000000/user-menu-female.png"
+        />
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-2"><h5>Ім'я</h5></div>
+          <div class="col">
+            <u>{{ salesperson.firstname }} {{ salesperson.lastname }}</u>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"><h5>Посада</h5></div>
+          <div class="col">
+            <u>{{ salesperson.jobtitle }}</u>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"><h5>Розташування</h5></div>
+          <div class="col">
+            <u>{{ salesperson.location }}</u>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"><h5>Телефон</h5></div>
+          <div class="col">
+            <u>{{ salesperson.phone }}</u>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"><h5>Емейл</h5></div>
+          <div class="col">
+            <u>{{ salesperson.email }}</u>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="history">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h3>Sell History</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto"><h5>#</h5></div>
+      <div class="col-3"><h5>ID</h5></div>
+      <div class="col-2"><h5>Продукт</h5></div>
+      <div class="col"><h5>Кількість</h5></div>
+      <div class="col"><h5>Загальна</h5></div>
+      <div class="col-2"><h5>Замовлення / Доставка</h5></div>
+      <div class="col"><h5>Покупець</h5></div>
+    </div>
+    <div *ngFor="let detail of details; index as i">
+      <div class="row" *ngIf="!detail.cancel">
+        <div class="col-auto">{{ i + 1 }}</div>
+        <div class="col-3">{{ detail._buyId }}</div>
+        <div class="col-2">
+          <a [routerLink]="['/products/lookup', detail._pdtId]">
+            {{ detail.brand }} {{ detail.itemname }}
+          </a>
+        </div>
+        <div class="col">{{ detail.quantity }} pcs</div>
+        <div class="col">${{ detail.quantity * detail.unitprice }}</div>
+        <div class="col-2">
+          [З] {{ detail.orderDate | date: "mediumDate" }}<br />
+          [Д] {{ detail.deliverDate | date: "mediumDate" }}
+        </div>
+        <div class="col">
+          <a [routerLink]="['/customers/lookup', detail.custUsername]">
+            {{ detail.custUsername }}
+          </a>
+        </div>
+      </div>
+      <div class="row text-muted" *ngIf="detail.cancel">
+        <del class="col-auto">{{ i + 1 }}</del>
+        <del class="col-3">{{ detail._buyId }}</del>
+        <del class="col-2">
+          <a
+            class="text-muted"
+            [routerLink]="['/products/lookup', detail._pdtId]"
+          >
+            {{ detail.brand }} {{ detail.itemname }}
+          </a>
+        </del>
+        <del class="col">{{ detail.quantity }} pcs</del>
+        <del class="col"> ${{ detail.quantity * detail.unitprice }} </del>
+        <del class="col-2">
+          [З] {{ detail.orderDate | date: "mediumDate" }}<br />
+          [Д] {{ detail.deliverDate | date: "mediumDate" }}
+        </del>
+        <del class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/customers/lookup', detail.custUsername]"
+          >
+            {{ detail.custUsername }}
+          </a>
+        </del>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="history">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h3>Історія скарг</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto">#</div>
+      <div class="col-3"><h5>ID</h5></div>
+      <div class="col-3"><h5>Проблема</h5></div>
+      <div class="col"><h5>Продукт</h5></div>
+      <div class="col-1"><h5>Статус</h5></div>
+      <div class="col"><h5>Клієнт</h5></div>
+      <div class="col"><h5>Працівник</h5></div>
+    </div>
+    <div *ngFor="let detail of details; index as i">
+      <div class="row" *ngIf="detail._rptId && !detail.status">
+        <div class="col-auto">{{ i + 1 }}</div>
+        <div class="col-3">{{ detail._rptId }}</div>
+        <div class="col-3">
+          <strong>{{ detail.subject }}</strong>
+          :<br />
+          {{ detail.complaint }}<br />
+          [Рішення] {{ detail.resolution }}
+        </div>
+        <div class="col">
+          <a [routerLink]="['/products/lookup', detail._pdtId]">
+            {{ detail.brand }}<br />{{ detail.itemname }}
+          </a>
+        </div>
+        <div class="col-1 text-danger">відкрита</div>
+        <div class="col">
+          <a [routerLink]="['/customers/lookup', detail.custUsername]">
+            {{ detail.custUsername }}
+          </a>
+        </div>
+        <div class="col">
+          <a [routerLink]="['/employees/lookup', detail.emplUsername]">
+            {{ detail.emplUsername }}
+          </a>
+        </div>
+      </div>
+      <div class="row" *ngIf="detail._rptId && detail.status">
+        <div class="col-auto text-muted">{{ i + 1 }}</div>
+        <div class="col-3 text-muted">{{ detail._rptId }}</div>
+        <div class="col-3 text-muted">
+          <strong>{{ detail.subject }}</strong>
+          :<br />
+          {{ detail.complaint }}<br />
+          [Рішення] {{ detail.resolution }}
+        </div>
+        <div class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/products/lookup', detail._pdtId]"
+          >
+            {{ detail.brand }}<br />{{ detail.itemname }}
+          </a>
+        </div>
+        <div class="col-1 text-success">закрита</div>
+        <div class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/customers/lookup', detail.custUsername]"
+          >
+            {{ detail.custUsername }}
+          </a>
+        </div>
+        <div class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/employees/lookup', detail.emplUsername]"
+          >
+            {{ detail.emplUsername }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="button">
+    <div class="row">
+      <div class="col-auto ml-auto">
+        <button type="button" class="btn btn-secondary" (click)="onBack()">
+          Назад
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

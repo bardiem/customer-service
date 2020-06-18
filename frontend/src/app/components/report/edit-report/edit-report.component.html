@@ -1,0 +1,230 @@
+
+<div class="alert alert-success text-center" *ngIf="submitted">
+  Успіх
+</div>
+
+<div class="alert alert-danger text-center" *ngIf="submitted === false">
+  {{ errorMessage.error }}
+</div>
+
+ 
+<div class="container">
+  <form [formGroup]="editReportForm">
+     
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ editReportForm.get('_id').value }}"
+          value="{{ editReportForm.get('_id').value }}"
+          formControlName="_id"
+        />
+      </div>
+    </div>
+
+     
+    <div class="row">
+      <div class="form-group col">
+        <select disabled
+          class="custom-select"
+          formControlName="_buyId"
+          (change)="selectBuy($event)"
+          [class.is-invalid]="
+            editReportForm.get('_buyId').invalid &&
+            editReportForm.get('_buyId').touched
+          "
+        >
+          <option disabled *ngFor="let detail of details" [value]="detail._buyId">
+            [{{ detail._buyId }}] {{ detail.brand }} {{ detail.itemname }} /
+            {{ detail.quantity }} шт. / {{ detail.custUsername }} /
+            {{ detail.orderDate | date: "mediumDate" }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            editReportForm.get('_buyId').invalid &&
+            editReportForm.get('_buyId').touched
+          "
+        >
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="тема"
+          formControlName="subject"
+          disabled
+          [class.is-invalid]="
+            editReportForm.get('subject').invalid &&
+            editReportForm.get('subject').touched
+          "
+        />
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="form-group col">
+        <textarea
+          class="form-control"
+          placeholder="скарга"
+          formControlName="complaint"
+          [class.is-invalid]="
+            editReportForm.get('complaint').invalid &&
+            editReportForm.get('complaint').touched
+          "
+          rows="5"
+        ></textarea>
+        <div
+          *ngIf="
+            editReportForm.get('complaint').invalid &&
+            editReportForm.get('complaint').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="editReportForm.get('complaint').errors.required"
+          >
+            скарга обов'язкова
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="editReportForm.get('complaint').errors.minlength"
+          >
+            скарга повинна містити мінімум 3 символи
+          </small>
+        </div>
+      </div>
+    </div>
+
+     
+    <div class="row">
+      <div class="form-group col">
+        <select
+          class="custom-select"
+          formControlName="_emplId"
+          (change)="selectEmployee($event)"
+          [class.is-invalid]="
+            editReportForm.get('_emplId').invalid &&
+            editReportForm.get('_emplId').touched
+          "
+        >
+          <option class="default text-muted">виберіть працівника</option>
+          <option *ngFor="let employee of employees" [value]="employee._id">
+            {{ employee.username }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            editReportForm.get('_emplId').invalid &&
+            editReportForm.get('_emplId').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="editReportForm.get('_emplId').errors.pattern"
+          >
+            працівник обов'язковий
+          </small>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="form-group col">
+        <small class="text-info">
+          введіть рішення проблеми
+        </small>
+        <textarea
+          class="form-control"
+          placeholder="resolution"
+          formControlName="resolution"
+          (change)="switchStatus($event)"
+          [class.is-invalid]="
+            editReportForm.get('resolution').invalid &&
+            editReportForm.get('resolution').touched
+          "
+          rows="5"
+        ></textarea>
+        <div
+          *ngIf="
+            editReportForm.get('resolution').invalid &&
+            editReportForm.get('resolution').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="editReportForm.get('resolution').errors.required"
+          >
+            рішення обов'язкове
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="editReportForm.get('resolution').errors.minlength"
+          >
+            рішення повинно містити мінімум 3 символи
+          </small>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="form-group col">
+        <small class="text-info">
+          змінити статус на "закрита", якщо рішення знайдено
+        </small>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input
+              type="radio"
+              class="form-check-input"
+              value="false"
+              formControlName="status"
+            />
+            відкрита</label
+          >
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input
+              type="radio"
+              class="form-check-input"
+              value="true"
+              formControlName="status"
+            />
+            закрита</label
+          >
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="row">
+      <div class="btn-toolbar col-auto ml-auto">
+        <div class="btn-group mr-3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onSubmit()"
+            [disabled]="!editReportForm.valid"
+          >
+            Підтвердити
+          </button>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">
+            Відмінити
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

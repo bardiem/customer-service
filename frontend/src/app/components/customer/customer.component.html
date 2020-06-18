@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="heading">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h1>Список клієнтів</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto ml-auto">
+        <button
+          type="button"
+          class="btn btn-sm btn-danger"
+          routerLink="/add"
+          (click)="onCreate()"
+        >
+          Добавити
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+  <div class="customer">
+    <div class="row">
+      <div class="col"><h5>Псевдонім</h5></div>
+      <div class="col"><h5>Ім'я</h5></div>
+      <div class="col"><h5>Адреса</h5></div>
+      <div class="col"><h5>Телефон</h5></div>
+      <div class="col-2"><h5>Емейл</h5></div>
+      <div class="col"></div>
+    </div>
+    <div class="row" *ngFor="let customer of customers">
+      <div class="col">{{ customer.username }}</div>
+      <div class="col">{{ customer.firstname }} {{ customer.lastname }}</div>
+      <div class="col">{{ customer.address }}</div>
+      <div class="col">{{ customer.phone }}</div>
+      <div class="col-2">{{ customer.email }}</div>
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-warning mr-2"
+          title="Змінити"
+          [routerLink]="['/edit', customer.username]"
+          (click)="onEdit(customer.username)"
+        >
+          <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-dark mr-2"
+          title="Видалити"
+          (click)="onDelete(customer.username)"
+        >
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-info"
+          title="Деталі"
+          [routerLink]="['/lookup', customer.username]"
+          (click)="onLookup(customer.username)"
+        >
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

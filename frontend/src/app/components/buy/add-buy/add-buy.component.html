@@ -1,0 +1,270 @@
+<div class="alert alert-success text-center" *ngIf="submitted">
+  Дані додано успішно
+</div>
+
+<div class="alert alert-danger text-center" *ngIf="submitted === false">
+  {{ errorMessage.error }}
+</div>
+
+<div class="container">
+  <form [formGroup]="addBuyForm">
+    <div class="row">
+      <div class="form-group col">
+        <select
+          class="custom-select"
+          formControlName="_pdtId"
+          (change)="selectProduct($event)"
+          [class.is-invalid]="
+            addBuyForm.get('_pdtId').invalid && addBuyForm.get('_pdtId').touched
+          "
+        >
+          <option class="default text-muted" selected>
+            виберіть продукт
+          </option>
+          <option *ngFor="let product of products" [value]="product._id">
+            {{ product.brand }} {{ product.itemname }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addBuyForm.get('_pdtId').invalid && addBuyForm.get('_pdtId').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addBuyForm.get('_pdtId').errors.pattern"
+          >
+            продукт обов'язковий
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ price }}"
+          disabled
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="кількість"
+          formControlName="quantity"
+          [class.is-invalid]="
+            addBuyForm.get('quantity').invalid &&
+            addBuyForm.get('quantity').touched
+          "
+        />
+        <div
+          *ngIf="
+            addBuyForm.get('quantity').invalid &&
+            addBuyForm.get('quantity').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addBuyForm.get('quantity').errors.required"
+          >
+            кількість обов'язкова
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="addBuyForm.get('quantity').errors.min"
+          >
+            кількість повинна бути більша одного
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="addBuyForm.get('quantity').errors.pattern"
+          >
+            кількість повинна бути числом
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col" *ngIf="price === 'price'">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="загальна ціна"
+          disabled
+        />
+      </div>
+      <div class="form-group col" *ngIf="price !== 'price'">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ addBuyForm.get('quantity').value * price }}"
+          disabled
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="дата замовлення"
+            formControlName="orderDate"
+            ngbDatepicker
+            #orderDate="ngbDatepicker"
+            [class.is-invalid]="
+              addBuyForm.get('orderDate').invalid &&
+              addBuyForm.get('orderDate').touched
+            "
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              class="btn btn-outline-dark calendar"
+              (click)="orderDate.toggle()"
+            ></button>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            addBuyForm.get('orderDate').invalid &&
+            addBuyForm.get('orderDate').touched
+          "
+        >
+          <small class="text-danger" *ngIf="addBuyForm.get('orderDate').errors">
+            дата замовлення обов'язкова
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col">
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="дата доставки"
+            formControlName="deliverDate"
+            ngbDatepicker
+            #deliverDate="ngbDatepicker"
+            [minDate]="addBuyForm.get('orderDate').value"
+            [class.is-invalid]="
+              addBuyForm.get('deliverDate').invalid &&
+              addBuyForm.get('deliverDate').touched &&
+              (addBuyForm.get('orderDate').invalid || dateFailed())
+            "
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              class="btn btn-outline-dark calendar"
+              (click)="deliverDate.toggle()"
+            ></button>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            addBuyForm.get('deliverDate').invalid &&
+            addBuyForm.get('deliverDate').touched &&
+            (addBuyForm.get('orderDate').invalid || dateFailed())
+          "
+        >
+          <small class="text-danger" *ngIf="addBuyForm.get('orderDate').errors">
+            дата замовлення обов'язкова
+          </small>
+          <small class="text-danger" *ngIf="dateFailed()"
+            >дата доставки повинна бути більша за дату замовлення</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <select
+          class="custom-select"
+          formControlName="_custId"
+          (change)="selectCustomer($event)"
+          [class.is-invalid]="
+            addBuyForm.get('_custId').invalid &&
+            addBuyForm.get('_custId').touched
+          "
+        >
+          <option class="default text-muted">виберіть покупця</option>
+          <option *ngFor="let customer of customers" [value]="customer._id">
+            {{ customer.username }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addBuyForm.get('_custId').invalid &&
+            addBuyForm.get('_custId').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addBuyForm.get('_custId').errors.pattern"
+          >
+            покупець обов'язковий
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col">
+        <select
+          class="custom-select"
+          formControlName="_saleId"
+          (change)="selectSalesperson($event)"
+          [class.is-invalid]="
+            addBuyForm.get('_saleId').invalid &&
+            addBuyForm.get('_saleId').touched
+          "
+        >
+          <option class="default text-muted">виберіть продавця</option>
+          <option
+            *ngFor="let salesperson of salespeople"
+            [value]="salesperson._id"
+          >
+            {{ salesperson.username }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addBuyForm.get('_saleId').invalid &&
+            addBuyForm.get('_saleId').touched
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="addBuyForm.get('_saleId').errors.pattern"
+          >
+            продавець обов'язковий
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="btn-toolbar col-auto ml-auto">
+        <div class="btn-group mr-3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onSubmit()"
+            [disabled]="!addBuyForm.valid"
+          >
+            Підтвердити
+          </button>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">
+            Відмінити
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

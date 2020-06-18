@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="heading">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h1>Список продавців</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto ml-auto">
+        <button
+          type="button"
+          class="btn btn-sm btn-danger"
+          routerLink="/add"
+          (click)="onCreate()"
+        >
+          Добавити
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+  <div class="salesperson">
+    <div class="row">
+      <div class="col"><h5>Псевдонім</h5></div>
+      <div class="col"><h5>Ім'я</h5></div>
+      <div class="col"><h5>Посада</h5></div>
+      <div class="col"><h5>Розташування</h5></div>
+      <div class="col"><h5>Телефон</h5></div>
+      <div class="col-2"><h5>Емейл</h5></div>
+      <div class="col"></div>
+    </div>
+    <div class="row" *ngFor="let salesperson of salespeople">
+      <div class="col">{{ salesperson.username }}</div>
+      <div class="col">
+        {{ salesperson.firstname }} {{ salesperson.lastname }}
+      </div>
+      <div class="col">{{ salesperson.jobtitle }}</div>
+      <div class="col">{{ salesperson.location }}</div>
+      <div class="col">{{ salesperson.phone }}</div>
+      <div class="col-2">{{ salesperson.email }}</div>
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-warning mr-2"
+          title="Змінити"
+          [routerLink]="['/edit', salesperson.username]"
+          (click)="onEdit(salesperson.username)"
+        >
+          <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-dark mr-2"
+          title="Видалити"
+          (click)="onDelete(salesperson.username)"
+        >
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-info"
+          title="Деталі"
+          [routerLink]="['/lookup', salesperson.username]"
+          (click)="onLookup(salesperson.username)"
+        >
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

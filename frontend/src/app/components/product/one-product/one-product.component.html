@@ -1,0 +1,207 @@
+<div class="container">
+  <div class="heading">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h1>
+          Продукт
+          <span class="display-4">
+            <em>{{ pdtId }}</em>
+          </span>
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="info">
+    <div class="row">
+      <div class="col-auto">
+        <img
+          src="https://img.icons8.com/doodle/96/000000/touchscreen-smartphone.png"
+        />
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-2"><h5>Назва</h5></div>
+          <div class="col">
+            <u>{{ product.itemname }}</u>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"><h5>Бренд</h5></div>
+          <div class="col">
+            <u>{{ product.brand }}</u>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"><h5>Опис</h5></div>
+          <div class="col">
+            <u>{{ product.description }}</u>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"><h5>Ціна</h5></div>
+          <div class="col">
+            <u>{{ product.unitprice }} грн.</u>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="history">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h3>Історія продаж</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto"><h5>#</h5></div>
+      <div class="col-3"><h5>ID</h5></div>
+      <div class="col-2"><h5>Замовлення / Доставка</h5></div>
+      <div class="col"><h5>Кількість</h5></div>
+      <div class="col"><h5>Загальна ціна</h5></div>
+      <div class="col"><h5>Клієнт</h5></div>
+      <div class="col"><h5>Продавець</h5></div>
+    </div>
+    <div *ngFor="let detail of details; index as i">
+      <div class="row" *ngIf="!detail.cancel">
+        <div class="col-auto">{{ i + 1 }}</div>
+        <div class="col-3">{{ detail._buyId }}</div>
+        <div class="col-2">
+          [З] {{ detail.orderDate | date: "mediumDate" }}<br />
+          [Д] {{ detail.deliverDate | date: "mediumDate" }}
+        </div>
+        <div class="col">{{ detail.quantity }} шт.</div>
+        <div class="col">{{ detail.quantity * detail.unitprice }} грн.</div>
+        <div class="col">
+          <a [routerLink]="['/customers/lookup', detail.custUsername]">
+            {{ detail.custUsername }}
+          </a>
+        </div>
+        <div class="col">
+          <a [routerLink]="['/salespeople/lookup', detail.saleUsername]">
+            {{ detail.saleUsername }}
+          </a>
+        </div>
+      </div>
+      <div class="row text-muted" *ngIf="detail.cancel">
+        <del class="col-auto">{{ i + 1 }}</del>
+        <del class="col-3">{{ detail._buyId }}</del>
+        <del class="col-2">
+          [З] {{ detail.orderDate | date: "mediumDate" }}<br />
+          [Д] {{ detail.deliverDate | date: "mediumDate" }}
+        </del>
+        <del class="col">{{ detail.quantity }} шт.</del>
+        <del class="col"> {{ detail.quantity * detail.unitprice }} грн. </del>
+        <del class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/customers/lookup', detail.custUsername]"
+          >
+            {{ detail.custUsername }}
+          </a>
+        </del>
+        <del class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/salespeople/lookup', detail.saleUsername]"
+          >
+            {{ detail.saleUsername }}
+          </a>
+        </del>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="history">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h3>Історія скарг</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto">#</div>
+      <div class="col-3"><h5>ID</h5></div>
+      <div class="col-3"><h5>Проблема</h5></div>
+      <div class="col-1"><h5>Статус</h5></div>
+      <div class="col"><h5>Клієнт</h5></div>
+      <div class="col"><h5>Працівник</h5></div>
+    </div>
+    <div *ngFor="let detail of details; index as i">
+      <div class="row" *ngIf="detail._rptId && !detail.status">
+        <div class="col-auto">{{ i + 1 }}</div>
+        <div class="col-3">{{ detail._rptId }}</div>
+        <div class="col-3">
+          <strong>{{ detail.subject }}</strong>
+          :<br />
+          {{ detail.complaint }}<br />
+          [Рішення] {{ detail.resolution }}
+        </div>
+        <div class="col-1 text-danger">відкрита</div>
+        <div class="col">
+          <a [routerLink]="['/customers/lookup', detail.custUsername]">
+            {{ detail.custUsername }}
+          </a>
+        </div>
+        <div class="col">
+          <a [routerLink]="['/employees/lookup', detail.emplUsername]">
+            {{ detail.emplUsername }}
+          </a>
+        </div>
+      </div>
+      <div class="row" *ngIf="detail._rptId && detail.status">
+        <div class="col-auto text-muted">{{ i + 1 }}</div>
+        <div class="col-3 text-muted">{{ detail._rptId }}</div>
+        <div class="col-3 text-muted">
+          <strong>{{ detail.subject }}</strong>
+          :<br />
+          {{ detail.complaint }}<br />
+          [Рішення] {{ detail.resolution }}
+        </div>
+        <div class="col-1 text-success">закрита</div>
+        <div class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/customers/lookup', detail.custUsername]"
+          >
+            {{ detail.custUsername }}
+          </a>
+        </div>
+        <div class="col">
+          <a
+            class="text-muted"
+            [routerLink]="['/employees/lookup', detail.emplUsername]"
+          >
+            {{ detail.emplUsername }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="button">
+    <div class="row">
+      <div class="col-auto ml-auto">
+        <button type="button" class="btn btn-secondary" (click)="onBack()">
+          Назад
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

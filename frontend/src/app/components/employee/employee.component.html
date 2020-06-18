@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="heading">
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <h1>Список працівників</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto ml-auto">
+        <button
+          type="button"
+          class="btn btn-sm btn-danger"
+          routerLink="/add"
+          (click)="onCreate()"
+        >
+          Добавити
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-spacer></app-spacer>
+
+<div class="container">
+  <div class="employee">
+    <div class="row">
+      <div class="col"><h5>Псевдонім</h5></div>
+      <div class="col"><h5>Ім'я</h5></div>
+      <div class="col"><h5>Посада</h5></div>
+      <div class="col"><h5>Адреса</h5></div>
+      <div class="col"><h5>Телефон</h5></div>
+      <div class="col-2"><h5>Емейл</h5></div>
+      <div class="col"></div>
+    </div>
+    <div class="row" *ngFor="let employee of employees">
+      <div class="col">{{ employee.username }}</div>
+      <div class="col">{{ employee.firstname }} {{ employee.lastname }}</div>
+      <div class="col">{{ employee.jobtitle }}</div>
+      <div class="col">{{ employee.location }}</div>
+      <div class="col">{{ employee.phone }}</div>
+      <div class="col-2">{{ employee.email }}</div>
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-warning mr-2"
+          title="Змінити"
+          [routerLink]="['/edit', employee.username]"
+          (click)="onEdit(employee.username)"
+        >
+          <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-dark mr-2"
+          title="Видалити"
+          (click)="onDelete(employee.username)"
+        >
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-info"
+          title="Деталі"
+          [routerLink]="['/lookup', employee.username]"
+          (click)="onLookup(employee.username)"
+        >
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
