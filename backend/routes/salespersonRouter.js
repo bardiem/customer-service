@@ -1,16 +1,13 @@
 const router = require("express").Router();
 
-// load data model
 let Salesperson = require("../models/salespersonModel");
 
-// get - retrieve all
 router.get("/", (req, res) => {
   Salesperson.find()
     .then((salespeople) => res.json(salespeople))
     .catch((err) => res.status(400).json("Error in GET salespeople: " + err));
 });
 
-// get - retrieve one
 router.get("/:saleUsername", (req, res) => {
   Salesperson.findOne({ username: req.params.saleUsername })
     .then((salesperson) => res.json(salesperson))
@@ -19,7 +16,6 @@ router.get("/:saleUsername", (req, res) => {
     );
 });
 
-// post - create new
 router.post("/", (req, res) => {
   Salesperson.create(req.body)
     .then((salesperson) => {
@@ -28,7 +24,6 @@ router.post("/", (req, res) => {
     .catch((err) => res.status(400).json("Error in POST salesperson: " + err));
 });
 
-// put - update one
 router.put("/:saleUsername", (req, res) => {
   Salesperson.findOneAndUpdate({ username: req.params.saleUsername }, req.body)
     .then(() => res.json("salesperson updated"))
@@ -37,7 +32,6 @@ router.put("/:saleUsername", (req, res) => {
     );
 });
 
-// delete - delete one
 router.delete("/:saleUsername", (req, res) => {
   Salesperson.findOneAndDelete({ username: req.params.saleUsername })
     .then(() => res.json("salesperson deleted"))

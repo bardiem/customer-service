@@ -48,7 +48,6 @@ export class OneProductComponent implements OnInit {
   ngOnInit() {
     this.pdtId = this.activatedRoute.snapshot.paramMap.get('pdtId');
 
-    // load needed data from service
     this.productService.getProduct(this.pdtId).subscribe((product: Product) => {
       this.product = product;
     });
@@ -67,9 +66,7 @@ export class OneProductComponent implements OnInit {
       this.employees = employees;
     });
 
-    // to solve the problem of not loading data from other service in time
     setTimeout(() => {
-      // set value to details
       this.buyService
         .getBuyByProduct(this.pdtId)
         .subscribe((pdtSells: Buy[]) => {

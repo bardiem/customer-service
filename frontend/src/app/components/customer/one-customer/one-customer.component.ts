@@ -50,7 +50,6 @@ export class OneCustomerComponent implements OnInit {
       'custUsername'
     );
 
-    // load needed data from service
     this.customerService
       .getCustomer(this.custUsername)
       .subscribe((customer: Customer) => (this.customer = customer));
@@ -69,9 +68,7 @@ export class OneCustomerComponent implements OnInit {
       this.employees = employees;
     });
 
-    // to solve the problem of not loading data from other service in time
     setTimeout(() => {
-      // set value to details
       this.buyService
         .getBuyByCustomer(this.custUsername)
         .subscribe((custBuys: Buy[]) => {
@@ -115,12 +112,10 @@ export class OneCustomerComponent implements OnInit {
             });
           });
         });
-      // console.log(this.details);
     }, 100);
   }
 
   onBack() {
-    // DOSE NOT WORK:
     // this.router.navigate(['../'], { relativeTo: this.activatedRoute });
     this.location.back();
   }

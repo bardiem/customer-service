@@ -49,7 +49,6 @@ export class OneEmployeeComponent implements OnInit {
       'emplUsername'
     );
 
-    // load needed data from service
     this.employeeService
       .getEmployee(this.emplUsername)
       .subscribe((employee: Employee) => {
@@ -70,9 +69,7 @@ export class OneEmployeeComponent implements OnInit {
         this.salespeople = salespeople;
       });
 
-    // to solve the problem of not loading data from other service in time
     setTimeout(() => {
-      // set value to details
       this.reportService
         .getReportByEmployee(this.emplUsername)
         .subscribe((emplRpts: Report[]) => {
@@ -107,7 +104,6 @@ export class OneEmployeeComponent implements OnInit {
             });
           });
         });
-      // console.log(this.details);
     }, 100);
   }
 

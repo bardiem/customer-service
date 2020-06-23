@@ -51,7 +51,6 @@ export class OneSalespersonComponent implements OnInit {
       'saleUsername'
     );
 
-    // load needed data from service
     this.salespersonService
       .getSalesperson(this.saleUsername)
       .subscribe((salesperson: Salesperson) => {
@@ -70,9 +69,7 @@ export class OneSalespersonComponent implements OnInit {
       this.employees = employees;
     });
 
-    // to solve the problem of not loading data from other service in time
     setTimeout(() => {
-      // set value to details
       this.buyService
         .getBuyBySalesperson(this.saleUsername)
         .subscribe((saleBuys: Buy[]) => {
@@ -116,7 +113,6 @@ export class OneSalespersonComponent implements OnInit {
             });
           });
         });
-      // console.log(this.details);
     }, 100);
   }
 

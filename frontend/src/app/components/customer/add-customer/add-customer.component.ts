@@ -24,8 +24,8 @@ export class AddCustomerComponent implements OnInit {
   ngOnInit() {
     this.addCustomerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      firstname: ['', [Validators.required, Validators.pattern('[A-Za-zА-ЯІа-яі]+')]],
-      lastname: ['', [Validators.required, Validators.pattern('[A-Za-zА-ЯІа-яі]+')]],
+      firstname: ['', [Validators.required, Validators.pattern('[A-Za-zА-ЯІа-яіїє]+')]],
+      lastname: ['', [Validators.required, Validators.pattern('[A-Za-zА-ЯІа-яіїє]+')]],
       address: ['', Validators.required],
       phone: [
         '',
